@@ -1,0 +1,118 @@
+
+public class Calculo {
+    //variaveis globais de controle função QuadradoPB
+    int contador = 0,tamanho = 2;
+    //start
+    float IMS,PB,NDT;
+    float NDTajustado[] = new float[tamanho];
+    float PBajustado [] = new float[tamanho];
+    int Taxa_erro_PB,Taxa_erro_NDT;
+    //É as variaveis modulo x e y subtraidas das variaveis 
+    
+    float Porc_alimento_1,Porc_alimento_2;
+    //variaveis do quadrado
+    //provavel vai virar 2 objetos
+    //float item_1,item_2;
+    Alimento x,y;
+
+    
+    public Calculo(float IMS, float PB,float NDT){
+        this.setIMS(IMS);
+        this.setPB(PB);
+        this.setNDT(NDT);
+        EspacoReserva();
+    }
+            
+    public void setIMS(float IMS){
+        this.IMS = IMS;
+    }        
+    public void setPB(float PB){
+        this.PB = PB;
+    }
+    public void setNDT(float NDT){
+        this.NDT = NDT;
+    }
+    public float getIMS(){
+        return this.IMS;
+    }
+    public float getPB(){
+        return this.PB;
+    }
+    public float getNDT(){
+        return this.NDT;
+    }
+    
+    //função que ajust o espaço reserva
+    //ajuste dos 3%
+    public void EspacoReserva(){
+        //-3%
+        this.IMS = (float) (this.IMS- (this.IMS * 0.03));
+        //+3
+        this.PB = (float) (this.PB + (this.PB*0.03));
+        this.NDT= (float) (this.NDT + (this.NDT*0.03));
+    }
+    
+    //provavelmente passa os objeto alimento como parametro
+    //ou passa o objeto vetor alimento
+    //função para alinhamento de PB
+    public void QuadradoPearsonPB(Alimento x,Alimento y, float PB){   
+        float Partes_1,Partes_2,Partes_total;
+        //realiza o quadrado 
+         Partes_1 = Math.abs(y.vPB - PB);
+         Partes_2 = Math.abs(x.vPB - PB);
+         
+         Partes_total = Partes_1+Partes_2;
+         //realiza a porcentagem
+         //em casa de o.80 = 80%
+         Porc_alimento_1 = (Partes_1 /Partes_total);
+         Porc_alimento_2 = (Partes_2 /Partes_total);
+         
+         //falta parte das aceitações do NDT IF
+         NDTajustado[contador] = x.vNDT*Porc_alimento_1 +y.vNDT*Porc_alimento_2;
+         PBajustado[contador] = 100-NDTajustado[contador];
+         //testa se o  PB esta dentro da faixa de erro
+         if((PB+Taxa_erro_PB)>PBajustado[contador] && (PB-Taxa_erro_PB) < PBajustado[contador]){
+           if((NDT+Taxa_erro_NDT)>NDTajustado[contador] && (NDT-Taxa_erro_NDT) < NDTajustado[contador]){
+             //vai pra função de fechamento e de mostrar
+             //funcaofinaliza();
+            }
+           else{
+               //como fazer  para achar os alimentos para fechar conta ?
+               if(contador<2){
+               contador++;
+               QuadradoPearsonPB(x,y, PB);
+               }
+               else{
+               QuadradoPearsonNDT(NDTajustado,NDT);
+               }
+           }
+         }
+         else{
+             //não sei o que fazer ainda  PERGUNTAR.
+         }
+         
+         
+    }
+    //provavelmente passa os objeto alimento como parametro
+    //ou passa o objeto vetor alimento
+
+    public void QuadradoPearsonNDT(float NDTajustado[], float NDT){   
+        //realiza o quadrado 
+        float Partes_1,Partes_2,Partes_total;
+        float xTemp,yTemp;
+        xTemp = NDTajustado[0];
+        yTemp = NDTajustado[1];
+        
+        
+         Partes_1 = Math.abs(xTemp - NDT);
+         Partes_2 = Math.abs(yTemp - NDT);
+         
+         Partes_total = Partes_1+Partes_2;
+         //realiza a porcentagem
+         Porc_alimento_1 = Partes_1 /Partes_total;
+         Porc_alimento_2 = Partes_2 /Partes_total;
+         
+    }
+    
+    
+}
