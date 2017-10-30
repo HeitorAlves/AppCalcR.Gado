@@ -6,6 +6,8 @@ public class Main {
         
         Scanner entrada = new Scanner(System.in);
         String resposta = null;
+        System.out.println("Digite os valores para os seguintes itens: IMS,NDT,PB");
+        
         Calculo z = new Calculo(0,(float)18,(float)0);       
         if(exec(z)){
             System.out.println("Concluido Calculo");

@@ -9,9 +9,9 @@ public class Alimento {
     //valor cheio 88 = 88%
     float vNDT;
 
-    public Alimento(String nome, float valor, float NDT) {
+    public Alimento(String nome, float PB, float NDT) {
         this.nome = nome;
-        this.vPB = valor;
+        this.vPB = PB;
         this.vNDT = NDT;
     }
 
@@ -31,14 +31,18 @@ public class Alimento {
         this.nome = nome;
     }
 
-    public float getValor() {
+    public float getPB() {
         return vPB;
     }
 
-    public void setValor(float valor) {
+    public void setPB(float valor) {
         this.vPB = valor;
     }
 
+    public String toString(){
+        return "|Nome:"+getNome()+"|"+"PB:"+getPB()+"|"+"NDT"+getNDT()+"|\n";
+
+    }
 
     //calcula varios alimentos porcentagem
 }

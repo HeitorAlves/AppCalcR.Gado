@@ -33,6 +33,7 @@ public class Calculo {
 
     
     public Calculo(float IMS, float PB,float NDT){
+        
         this.setIMS(IMS);
         this.setPB(PB);
         this.setNDT(NDT);
@@ -57,20 +58,7 @@ public class Calculo {
     public float getNDT(){
         return this.NDT;
     }
-    
-    //função que ajust o espaço reserva
-    //ajuste dos 3%
-    public void EspacoReserva(){
-        //-3%
-        this.IMS = (float) (this.IMS- (this.IMS * 0.03));
-        //+3
-        this.PB = (float) (this.PB + (this.PB*0.03));
-        this.NDT= (float) (this.NDT + (this.NDT*0.03));
-    }
-    
-    
-
-    Alimento alimentos(){
+     Alimento alimentos(){
         Scanner scan = new Scanner(System.in);
         
         System.out.println("ims"+getIMS()+"pb"+getPB()+"ndt"+getNDT());
@@ -87,6 +75,24 @@ public class Calculo {
         
         return alim;
     }
+    
+    public void inicializa(){
+        //System.out.println("Quantos Alimentos quer colocar no calculo");
+    }
+    
+    //função que ajust o espaço reserva
+    //ajuste dos 3%
+    public void EspacoReserva(){
+        //-3%
+        this.IMS = (float) (this.IMS- (this.IMS * 0.03));
+        //+3
+        this.PB = (float) (this.PB + (this.PB*0.03));
+        this.NDT= (float) (this.NDT + (this.NDT*0.03));
+    }
+    
+    
+
+   
     //provavelmente passa os objeto alimento como parametro
     //ou passa o objeto vetor alimento
     //função para alinhamento de PB
@@ -101,11 +107,11 @@ public class Calculo {
             System.out.println("--------------------------------");
             System.out.println("nome: "+x.getNome());
             System.out.println("ndt: "+x.getNDT());
-            System.out.println("pb: "+x.getValor());
+            System.out.println("pb: "+x.getPB());
             System.out.println("-------------------------------");
             System.out.println("nome: "+y.getNome());
             System.out.println("ndt: "+y.getNDT());
-            System.out.println("pb: "+y.getValor());
+            System.out.println("pb: "+y.getPB());
 
 
 
@@ -144,6 +150,7 @@ public class Calculo {
                 aceite = true;
                 
                 return true;
+                
                  //finalisa
                  //chama metodo passando ndt e pb 
             }
