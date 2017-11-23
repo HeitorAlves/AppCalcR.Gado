@@ -3,12 +3,18 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        
+    /*    float IMS,PB,NDT;
         Scanner entrada = new Scanner(System.in);
         String resposta = null;
         System.out.println("Digite os valores para os seguintes itens: IMS,NDT,PB");
+        System.out.println("IMS: ");
+        IMS = entrada.nextFloat();
+        System.out.println("NDT: ");
+        NDT = entrada.nextFloat();
+        System.out.println("PB: ");        
+        PB = entrada.nextFloat();
         
-        Calculo z = new Calculo(0,(float)18,(float)0);       
+        Calculo z = new Calculo(IMS,PB,NDT);       
         if(exec(z)){
             System.out.println("Concluido Calculo");
             return;
@@ -49,6 +55,23 @@ public class Main {
         return false;
     }
     
-
-    
+*/
+        
+     float IMS,PB,NDT;
+        Scanner entrada = new Scanner(System.in);
+        String resposta = null;
+        System.out.println("Digite os valores para os seguintes itens: IMS,NDT,PB");
+        System.out.println("IMS: ");
+        IMS = entrada.nextFloat();
+        System.out.println("PB: ");        
+        PB = entrada.nextFloat();
+        System.out.println("NDT: ");
+        NDT = entrada.nextFloat();
+        
+        
+        Calculo z = new Calculo(IMS,PB,NDT);
+        z.inicializa();
+        
+     
+    }
 }

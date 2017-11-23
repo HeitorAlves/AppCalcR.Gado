@@ -92,7 +92,7 @@ public class MistTeste {
         System.out.println(porcGerada);
         w = w + 0.01f;
         }
-        System.out.println("________________-__");
+          System.out.println("________________-__");
         System.out.println(porcGerada);
         
         Alimento x = mePbmeNDT(list,PB,NDT,porcNegada,porcGerada);

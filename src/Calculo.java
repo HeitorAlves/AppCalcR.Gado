@@ -9,15 +9,21 @@ public class Calculo {
     int contador=0,aux=0;
     float maior = 0, menor = 0;
     boolean Bmaior,Bmenor,Baceito,ajustoundt,aceite;
-    
+    float espacoReserva,espacoPorcentagem;
     
 
+    
+    ArrayList<Alimento> ListaAlimentos = new ArrayList<>();
+    
+    
+    
+    
     ArrayList<EstruturaAcoplacao> TADalimento = new ArrayList<>();
     //start
     float IMS,PB,NDT;
     ArrayList NDTajustado = new ArrayList();
     ArrayList PBajustado = new ArrayList();
-    int Taxa_erro_PB = 5,Taxa_erro_NDT =5;
+    int Taxa_erro_PB = 2,Taxa_erro_NDT =2;
     //É as variaveis modulo x e y subtraidas das variaveis 
     
     //aux fecha calc
@@ -31,15 +37,25 @@ public class Calculo {
     Alimento x,y;
     
 
+    public Calculo(){}
     
     public Calculo(float IMS, float PB,float NDT){
         
         this.setIMS(IMS);
         this.setPB(PB);
         this.setNDT(NDT);
-        EspacoReserva();
+        
     }
-            
+    
+    public void iniciaListaAlimento(){
+        Alimento aux1 = null,aux2 = null,aux3 = null,aux4 = null;
+       
+        ListaAlimentos.add(aux1);
+        ListaAlimentos.add(aux2);
+        ListaAlimentos.add(aux3);
+        ListaAlimentos.add(aux4);
+    }
+    
     public void setIMS(float IMS){
         this.IMS = IMS;
     }        
@@ -58,36 +74,192 @@ public class Calculo {
     public float getNDT(){
         return this.NDT;
     }
-     Alimento alimentos(){
+    
+    public void inicializa(){
+        
+        
+        Scanner entradaF = new Scanner(System.in);
+        Scanner entradaI = new Scanner(System.in);
+        Scanner entradaS = new Scanner(System.in);
+        System.out.println("IMS"+getIMS()+"PB"+getPB()+"NDT"+getNDT());
+        System.out.println("|---------------------------------------------------|");
+        System.out.println("|---------------------Calc.R.Gado-------------------|");
+        System.out.println("|1_Para entrar com alimentos                        |");
+        System.out.println("|2_Para entrar com espaço reserva                   |");
+        System.out.println("|3_Calcular                                         |");
+        System.out.println("|---------------------------------------------------|");
+        int h = entradaI.nextInt();
+        int nAlimentos;
+        System.out.println("|------------Confirma(S/N)--------------------------|");
+        String confirmacao = entradaS.nextLine();
+        if("S".equals(confirmacao)){
+            switch(h){
+                case 1:
+                    System.out.println("|1_Para entrar com alimentos                        |");
+                    System.out.println("|Digite a quantidade de Alimentos ");
+                    nAlimentos = entradaI.nextInt();
+                    if(nAlimentos<4){
+                        InsercaoAlimMS(nAlimentos);
+                        
+                    }
+                    else{
+                        InsercaoAlimMC();
+                    }
+                    inicializa();
+                    break;
+                case 2:
+                    System.out.println("Digite o valor do Espaço Reserva");
+                    System.out.println("Valaores Inteiros Ex: 1/1%,2/2%,3/3%..");
+                    espacoReserva = entradaF.nextFloat();
+                    espacoPorcentagem = espacoReserva/100;
+        
+                    EspacoReserva(espacoPorcentagem);
+                    inicializa();
+                    break;
+                case 3:
+                    
+                    if(QuadradoPearson()){
+                        if(FechaCalc()){
+                            System.out.println("calculo concluido");
+                        }
+                        else{
+                            System.out.println("erro no quadrado");
+                        }
+                    }
+                    break;
+
+            }
+        }else{
+            inicializa();
+        }
+        
+        //System.out.println("Quantos Alimentos quer colocar no calculo");
+    }
+    
+    
+    public void InsercaoAlimMC(){};
+        
+    public void InsercaoAlimMS(int nAlimentos){
+        if(nAlimentos <3){
+            System.out.println("Erro numero de alimentos menor que a entrada minima");
+        }
+        else{
+            for(int i = 0; i<nAlimentos;i++){
+                ListaAlimentos.add(DadosAlimentos());
+            }
+            ordenaListaAlim(ListaAlimentos);
+            CompletaAlimQuadrado();
+            
+            System.out.println("Lista de Alimentos");
+            for (int i = 0; i < nAlimentos; i++) {
+                System.out.println(ListaAlimentos.get(i).nome);
+                
+            }
+        }
+        
+    }
+    
+    //recebe 3 alimentos e ordena de forma a realização do calculo ser possivel
+    public void ordenaListaAlim(ArrayList<Alimento> listaAlimentos){
+        if(listaAlimentos.get(0).vPB>PB && listaAlimentos.get(1).vPB>PB){
+            if(listaAlimentos.get(2).vPB>PB){
+                System.out.println("Alimentos Impossivel de Realizar calculo");
+            }
+            else{
+                Alimento aux1 = listaAlimentos.get(1);
+                Alimento aux2 = listaAlimentos.get(2);
+                listaAlimentos.set(1, aux2);
+                listaAlimentos.set(2, aux1);
+                
+            }
+        }
+        if(listaAlimentos.get(0).vPB<PB && listaAlimentos.get(1).vPB<PB){
+            if(listaAlimentos.get(2).vPB<PB){
+                System.out.println("Alimentos Impossivel de Realizar calculo");
+            }
+            else{
+                Alimento aux1 = listaAlimentos.get(1);
+                Alimento aux2 = listaAlimentos.get(2);
+                listaAlimentos.set(1, aux2);
+                listaAlimentos.set(2, aux1);
+                
+            }
+                
+            
+        }
+        
+    }
+    
+    void CompletaAlimQuadrado(){
+        Alimento alimentoAux;
+        
+        alimentoAux = ListaAlimentos.get(2);
+        System.out.println(alimentoAux);
+        System.out.println(PB);
+        //preenche procurando valor de pb menor pro ultimo alimento
+        if(alimentoAux.vPB>PB){
+             System.out.println("birlpai");
+            setquartoAlim(1);
+        }
+        //preenche procurando valor de pb maior pro ultimo alimento
+        else{
+            System.out.println("herepai");
+            setquartoAlim(0);
+        }
+    }
+    
+    void setquartoAlim(int maiormenor){
+        //add ultimo alimento com pb menor que o seu par
+        if(maiormenor == 1){
+            System.out.println("birl");
+            for(int i=0;i<ListaAlimentos.size()-1;i++){
+                if(ListaAlimentos.get(i).vPB<PB){
+                    ListaAlimentos.add(ListaAlimentos.get(i));
+                }
+            }
+        }
+        //add ultimo alimento com pb maior que o seu par
+        if(maiormenor == 0){
+            System.out.println("here");
+            for(int i=0;i<ListaAlimentos.size()-1;i++){
+                System.out.println(ListaAlimentos.get(i));
+                 if(ListaAlimentos.get(i).vPB>PB){
+                     System.out.println("aqui"+ListaAlimentos.get(i));
+                    ListaAlimentos.add(ListaAlimentos.get(i));
+                }
+            }
+        }
+    }
+    
+    
+    Alimento DadosAlimentos(){
         Scanner scan = new Scanner(System.in);
         
-        System.out.println("ims"+getIMS()+"pb"+getPB()+"ndt"+getNDT());
+        
         
         System.out.println("Digite nome aliemnto :");
         String nome = scan.nextLine();
-       
-        System.out.println("Digite ndt aliemnto :");
-        float ndt = scan.nextFloat();
-        System.out.println("Digite pb aliemnto :");
+        System.out.println("Digite PB aliemnto :");
         float pb = scan.nextFloat();
+        System.out.println("Digite NDT aliemnto :");
+        float ndt = scan.nextFloat();
+        
         
         Alimento alim = new Alimento(nome,pb,ndt);
         
         return alim;
     }
     
-    public void inicializa(){
-        //System.out.println("Quantos Alimentos quer colocar no calculo");
-    }
-    
+
     //função que ajust o espaço reserva
     //ajuste dos 3%
-    public void EspacoReserva(){
+    public void EspacoReserva(float espacoPorcentagem){
         //-3%
-        this.IMS = (float) (this.IMS- (this.IMS * 0.03));
+        
+        this.IMS = (float) (this.IMS- (this.IMS * espacoPorcentagem));
         //+3
-        this.PB = (float) (this.PB + (this.PB*0.03));
-        this.NDT= (float) (this.NDT + (this.NDT*0.03));
+        this.PB = (float) (this.PB + (this.PB*espacoPorcentagem));
+        this.NDT= (float) (this.NDT + (this.NDT*espacoPorcentagem));
     }
     
     
@@ -100,6 +272,7 @@ public class Calculo {
         
         
         if(aux<2){
+            /*System.out.println("ims"+getIMS()+"pb"+getPB()+"ndt"+getNDT());
 
             Alimento  x = alimentos();
             Alimento  y = alimentos();
@@ -112,14 +285,22 @@ public class Calculo {
             System.out.println("nome: "+y.getNome());
             System.out.println("ndt: "+y.getNDT());
             System.out.println("pb: "+y.getPB());
+            */
 
-
-
+            
+            x = ListaAlimentos.get(0);
+            y = ListaAlimentos.get(1);
+            
+            if(aux == 1){
+            x = ListaAlimentos.get(2);
+            y = ListaAlimentos.get(3);
+            }
+            
             float Partes_1,Partes_2,Partes_total;
             //realiza o quadrado 
             Partes_1 = Math.abs(y.vPB - PB);
             Partes_2 = Math.abs(x.vPB - PB);
-
+            
             Partes_total = Partes_1+Partes_2;
             //realiza a porcentagem
             //em casa de o.80 = 80%
